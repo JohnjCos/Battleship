@@ -12,6 +12,7 @@ const initialState ={
     playerShots:[],
     redirect:{},
     player2Ships:[[{x:1,y:2},{x:1,y:1}],[{x:2,y:2},{x:2,y:1}],[{x:5,y:4},{x:5,y:3},{x:5,y:5}],[{x:2,y:4},{x:1,y:4},{x:3,y:4}]]
+    
 }
 
 export const selectReducer = (state = initialState, action) => {
