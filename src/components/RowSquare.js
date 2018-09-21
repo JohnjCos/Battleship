@@ -77,6 +77,9 @@ class RowSquare extends React.Component {
 const mapStatetoProps= state =>({
     mode: state.mode,
     playerships: state.playerships,
+    player2ships:state.player2ships
 })
 
 export default connect(mapStatetoProps)(RowSquare)
+
+
