@@ -1,7 +1,7 @@
-import {GROUP_COORDINATES, BATTLESHIP_SELECT,REDO_SHIPS,BEGIN_GAME, SHIP_HIT, SHIP_MISS, GRID_EXIT, MODE_CHANGE, REDIRECT_GAME} from './actions'
+import {GROUP_COORDINATES, BATTLESHIP_SELECT,REDO_SHIPS, SHIP_HIT, SHIP_MISS, MODE_CHANGE, REDIRECT_GAME} from './actions'
 
 const initialState ={
-    player1ships:[],
+    playerships:[],
     newShip:[],
     shipSelection:{
         2:2,
@@ -9,17 +9,16 @@ const initialState ={
     },
     feedback:'select your battleships',
     mode:'start',
-    player1Shots:[],
-    redirect:{}
+    playerShots:[],
+    redirect:{},
+    player2Ships:[[{x:1,y:2},{x:1,y:1}],[{x:2,y:2},{x:2,y:1}],[{x:5,y:4},{x:5,y:3},{x:5,y:5}],[{x:2,y:4},{x:1,y:4},{x:3,y:4}]]
 }
-
-
 
 export const selectReducer = (state = initialState, action) => {
 
     function coordinateCheck(){
         for(let i =0;i<state.newShip.length;i++){
-            const check = state.player1ships.map(ship =>ship.some(square => square.x ===state.newShip[i].x && square.y === state.newShip[i].y))
+            const check = state.playerships.map(ship =>ship.some(square => square.x ===state.newShip[i].x && square.y === state.newShip[i].y))
             if(check.includes(true) === true){
                 return true
             }
@@ -41,7 +40,7 @@ export const selectReducer = (state = initialState, action) => {
         if(state.shipSelection["2"]===0 && state.shipSelection["3"]===1){
             if(state.newShip.length === 3 && state.shipSelection["3"] !== 0 && coordinateCheck()!==true){
                 return Object.assign({},state,{
-                    player1ships:[...state.player1ships,state.newShip],
+                    playerships:[...state.playerships,state.newShip],
                     shipSelection:{'2':state.shipSelection["2"],'3':state.shipSelection["3"]-1},
                     newShip:[],
                     mode:'ready'                    
@@ -51,7 +50,7 @@ export const selectReducer = (state = initialState, action) => {
         else if(state.shipSelection["2"]===1 && state.shipSelection["3"]===0){
             if(state.newShip.length === 2 && state.shipSelection["2"] !== 0 && coordinateCheck()!==true){
                 return Object.assign({},state,{
-                    player1ships:[...state.player1ships,state.newShip],
+                    playerships:[...state.playerships,state.newShip],
                     shipSelection:{'2':state.shipSelection["2"]-1,'3':state.shipSelection["3"]},
                     newShip:[],
                     mode:'ready'                    
@@ -60,14 +59,14 @@ export const selectReducer = (state = initialState, action) => {
         }
         else if(state.newShip.length === 3 && state.shipSelection["3"] !== 0 && coordinateCheck()!==true){
             return Object.assign({},state,{
-                player1ships:[...state.player1ships,state.newShip],
+                playerships:[...state.playerships,state.newShip],
                 shipSelection:{'2':state.shipSelection["2"],'3':state.shipSelection["3"]-1},
                 feedback:`Please select ${state.shipSelection["2"]} ships with a length of 2 and ${state.shipSelection["3"]-1} with a length of 3`,
                 newShip:[]
             })
         }else if(state.newShip.length ===2 && state.shipSelection["2"] !== 0 && coordinateCheck()!==true){
             return Object.assign({},state,{
-                player1ships:[...state.player1ships,state.newShip],
+                playerships:[...state.playerships,state.newShip],
                 shipSelection:{'2':state.shipSelection["2"]-1,'3':state.shipSelection["3"] },
                 feedback:`Please select ${state.shipSelection["2"]-1} ships with a length of 2 and ${state.shipSelection["3"]} with a length of 3`,
                 newShip:[]
@@ -78,12 +77,6 @@ export const selectReducer = (state = initialState, action) => {
                 feedback:`Please select a valid length of 2 or 3`
             })
         }
-    }
-    else if(action.type === BEGIN_GAME){
-        return Object.assign({},state,{
-            feedback:'Time to destroy your enemy!',
-            mode:'play'
-        })
     }else if(action.type ===SHIP_HIT){
         return Object.assign({},state,{
             feedback:'Hit!',
@@ -92,10 +85,6 @@ export const selectReducer = (state = initialState, action) => {
     }else if(action.type===SHIP_MISS){
         return Object.assign({},state,{
             feedback:'miss'
-        })
-    }else if(action.type===GRID_EXIT){
-        return Object.assign({},state,{
-            newShip:[]
         })
     }else if(action.type ===MODE_CHANGE){
         return Object.assign({},state,{

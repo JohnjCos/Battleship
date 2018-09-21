@@ -14,7 +14,7 @@ class RowSquare extends React.Component {
     render(){
 
         const coordinateCheck = ()=>{
-            const check = this.props.player1ships.map(ship =>ship.some(square => square.x ===this.props.rowIndex && square.y === this.props.columnIndex))
+            const check = this.props.playerships.map(ship =>ship.some(square => square.x ===this.props.rowIndex && square.y === this.props.columnIndex))
             if(check.includes(true) === true){
                 return 'O'
             }
@@ -76,8 +76,7 @@ class RowSquare extends React.Component {
 
 const mapStatetoProps= state =>({
     mode: state.mode,
-    player1ships: state.player1ships,
-    player2ships: state.player2ships
+    playerships: state.playerships,
 })
 
 export default connect(mapStatetoProps)(RowSquare)

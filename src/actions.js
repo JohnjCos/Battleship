@@ -17,26 +17,22 @@ export const groupCoordinates = (coordinates) => ({
     coordinates
 })
 
-export const GRID_EXIT = 'GRID_EXIT'
-export const gridExit = ()=>({
-    type:GRID_EXIT
-})
-
-export const BEGIN_GAME = 'BEGIN_GAME'
-export const beginGame = () =>({
-    type: BEGIN_GAME
-})
-
 export const REDO_SHIPS ='REDO_SHIPS'
 export const redoShips = ()=>({
     type: REDO_SHIPS
 })
 
 export const SHIP_HIT = 'SHIP_HIT'
-export const shipHit =(coordinate) =>({
-    type:SHIP_HIT,
-    coordinate
-})
+export const shipHit =(Shots) =>dispatch =>{
+    return fetch(`${API_BASE_URL}`,{
+        method:'PUT',
+        headers:{
+            'content-type': 'application/json'
+        },
+        body:JSON.stringify({Shots})
+    })
+    .then(res =>res.json())
+}
 
 export const SHIP_MISS = 'ship_MISS'
 export const shipMiss = () =>({
@@ -53,16 +49,16 @@ export const createGame =(gameName, password)=>dispatch =>{
     })
     .then(res => res.json())
 }
-
-export const joinGame = (gameName, password)=> dispatch =>{
+export const BEGIN_GAME = 'BEGIN_GAME'
+export const beginGame = (Ships) =>dispatch =>{
     return fetch(`${API_BASE_URL}`,{
-        method:'GET',
+        method:'PUT',
         headers:{
             'content-type': 'application/json'
         },
-        body:JSON.stringify({gameName,password})
+        body:JSON.stringify({Ships})
     })
-    .then(res => res.json())
+    .then(res =>res.json())
 }
 
 export const REDIRECT_GAME ='REDIRECT_GAME'

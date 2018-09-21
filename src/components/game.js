@@ -1,11 +1,10 @@
 import React from 'react'
 import Board from './board'
-import {Route,Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import InfoSection from './InfoSection'
 import StartMenu from './StartMenu';
 import CreateOrJoin from './CreateOrJoin';
-import socketSend from '../socketEvents'
 
 function Game(props){
     if(props.redirect!==null && props.redirect.mode === 'create'){
