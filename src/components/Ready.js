@@ -1,18 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {beginGame,redoShips, modeChange} from '../actions'
+import {beginGame,redoShips} from '../actions'
+
 function Ready(props){
-
-
-
     return(
-        <div>
+        <div className="readySection">
             <h3>Begin?</h3>
-            <button onClick={()=>{
+            <button 
+            className='ready'
+            onClick={()=>{
                 props.dispatch(beginGame(props.Ships))
-                props.dispatch(modeChange('play'))
                 }}>Ready</button>
-            <button onClick={()=>props.dispatch(redoShips())}>Redo ships</button>
+            <button className='redo' onClick={()=>props.dispatch(redoShips())}>Redo ships</button>
         </div>
     )
 }

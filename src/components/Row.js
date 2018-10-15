@@ -1,11 +1,12 @@
 import React from 'react'
 import RowSquare from './RowSquare'
+import './row.css'
 
 export default function Row({rowIndex,numberOfSquares}){
     return(
-        <div key={rowIndex}>
+        <div className='rows'>
             {
-                [...Array(numberOfSquares).keys()].map(square =>  <RowSquare  rowIndex={rowIndex} columnIndex={square}/>)
+                [...Array(numberOfSquares).keys()].map(square =>  <RowSquare key={`${rowIndex}-${square}`} rowIndex={rowIndex} columnIndex={square}/>)
             } 
         </div>
     )

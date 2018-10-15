@@ -1,4 +1,5 @@
-import {GROUP_COORDINATES, BATTLESHIP_SELECT,REDO_SHIPS, SHIP_HIT, SHIP_MISS, MODE_CHANGE, REDIRECT_GAME} from './actions'
+import {GROUP_COORDINATES, BATTLESHIP_SELECT,REDO_SHIPS, MODE_CHANGE,
+            REDIRECT_GAME, HIT_CHECK, BEGIN_GAME, SWITCH_TURN, SET_WINNER, GAME_ERROR} from './actions'
 
 const initialState ={
     playerships:[],
@@ -7,19 +8,23 @@ const initialState ={
         2:2,
         3:2
     },
-    feedback:'select your battleships',
+    feedback:'',
     mode:'start',
     playerShots:[],
-    redirect:{},
-    player2Ships:[[{x:1,y:2},{x:1,y:1}],[{x:2,y:2},{x:2,y:1}],[{x:5,y:4},{x:5,y:3},{x:5,y:5}],[{x:2,y:4},{x:1,y:4},{x:3,y:4}]]
-    
+    player:'',
+    checkHit:{hitOrMiss:'',coordinate:{}},
+    gameName: null,
+    turn: null,
+    winner:null,
+    error:''
 }
 
 export const selectReducer = (state = initialState, action) => {
 
     function coordinateCheck(){
         for(let i =0;i<state.newShip.length;i++){
-            const check = state.playerships.map(ship =>ship.some(square => square.x ===state.newShip[i].x && square.y === state.newShip[i].y))
+            const check = state.playerships.map(ship =>ship.some(square => 
+                square.x ===state.newShip[i].x && square.y === state.newShip[i].y))
             if(check.includes(true) === true){
                 return true
             }
@@ -27,17 +32,16 @@ export const selectReducer = (state = initialState, action) => {
     }
 
     if(action.type===GROUP_COORDINATES){
-        if(!state.newShip.some(square => square.x === action.coordinates.x && square.y ===action.coordinates.y)){
+        if(!state.newShip.some(square => 
+            square.x === action.coordinates.x && square.y ===action.coordinates.y)){
             return Object.assign({},state,{
                 newShip: [...state.newShip, action.coordinates]
             })
         }
-    }
-    else if(action.type === REDO_SHIPS){
+    }else if(action.type === REDO_SHIPS){
         return Object.assign({},state,initialState)
         
-    }
-    else if(action.type ===BATTLESHIP_SELECT){
+    }else if(action.type ===BATTLESHIP_SELECT){
         if(state.shipSelection["2"]===0 && state.shipSelection["3"]===1){
             if(state.newShip.length === 3 && state.shipSelection["3"] !== 0 && coordinateCheck()!==true){
                 return Object.assign({},state,{
@@ -47,8 +51,12 @@ export const selectReducer = (state = initialState, action) => {
                     mode:'ready'                    
                 })
             }
-        }
-        else if(state.shipSelection["2"]===1 && state.shipSelection["3"]===0){
+            return Object.assign({},state,{
+                newShip:[],
+                feedback:`Please select a valid length of 2 or 3`
+            })
+            
+        }else if(state.shipSelection["2"]===1 && state.shipSelection["3"]===0){
             if(state.newShip.length === 2 && state.shipSelection["2"] !== 0 && coordinateCheck()!==true){
                 return Object.assign({},state,{
                     playerships:[...state.playerships,state.newShip],
@@ -57,19 +65,24 @@ export const selectReducer = (state = initialState, action) => {
                     mode:'ready'                    
                 })
             }
-        }
-        else if(state.newShip.length === 3 && state.shipSelection["3"] !== 0 && coordinateCheck()!==true){
+            return Object.assign({},state,{
+                newShip:[],
+                feedback:`Please select a valid length of 2 or 3`
+            })
+        }else if(state.newShip.length === 3 && state.shipSelection["3"] !== 0 && coordinateCheck()!==true){
             return Object.assign({},state,{
                 playerships:[...state.playerships,state.newShip],
                 shipSelection:{'2':state.shipSelection["2"],'3':state.shipSelection["3"]-1},
-                feedback:`Please select ${state.shipSelection["2"]} ships with a length of 2 and ${state.shipSelection["3"]-1} with a length of 3`,
+                feedback:`Please select ${state.shipSelection["2"]} ships with a length of 2 and 
+                            ${state.shipSelection["3"]-1} with a length of 3`,
                 newShip:[]
             })
         }else if(state.newShip.length ===2 && state.shipSelection["2"] !== 0 && coordinateCheck()!==true){
             return Object.assign({},state,{
                 playerships:[...state.playerships,state.newShip],
                 shipSelection:{'2':state.shipSelection["2"]-1,'3':state.shipSelection["3"] },
-                feedback:`Please select ${state.shipSelection["2"]-1} ships with a length of 2 and ${state.shipSelection["3"]} with a length of 3`,
+                feedback:`Please select ${state.shipSelection["2"]-1} ships with a length of 2 and 
+                            ${state.shipSelection["3"]} with a length of 3`,
                 newShip:[]
             })
         }else{
@@ -78,32 +91,66 @@ export const selectReducer = (state = initialState, action) => {
                 feedback:`Please select a valid length of 2 or 3`
             })
         }
-    }else if(action.type ===SHIP_HIT){
+    }else if(action.type === GAME_ERROR){
+        console.log(action)
         return Object.assign({},state,{
-            feedback:'Hit!',
-            player1Hit:[action.coordinate]
+            error:action.error
         })
-    }else if(action.type===SHIP_MISS){
+    }else if(action.type ===HIT_CHECK){
+        console.log(action)
         return Object.assign({},state,{
-            feedback:'miss'
+            checkHit:action.checkHit,
+            feedback:action.checkHit.hitOrMiss,
+            playerShots:[...state.playerShots,action.checkHit]
         })
     }else if(action.type ===MODE_CHANGE){
         return Object.assign({},state,{
             mode:action.mode
         })
     }else if(action.type ===REDIRECT_GAME){
-        if(action.mode ==='create'){
+        if(action.player ==='player1'){
             return Object.assign({},state,{
-                redirect:{gameName:action.gameName,mode:action.mode},
-                mode:'selecting'
+                player:action.player,
+                mode:'selecting',
+                gameName:action.gameName,
+                feedback:'select your Battleships!',
+                error:''
             })
-        }else if(action.mode ==='join'){
+        }else if(action.player ==='player2'){
             return Object.assign({},state,{
-                redirect:{gameName:action.gameName,mode:action.mode},
-                mode:'selecting'
+                player:action.player,
+                mode:'selecting',
+                gameName:action.gameName,
+                feedback:'select your Battleships!',
+                error:''
             })
         }
         
+    }else if (action.type === BEGIN_GAME){
+        return Object.assign({},state,{
+            playerTurn: action.turn,
+            mode:'play',
+            feedback:'time to crush the enemy!',
+            turn: null
+        })
+    }else if(action.type === SWITCH_TURN){
+    let turn
+        if(!state.turn){
+            turn = state.player
+        }
+        else{
+            turn = (state.turn === 'player1' ) ? 'player2' : 'player1'
+        }
+            return Object.assign({},state,{
+                turn,
+                feedback: `${turn}'s turn`
+            })
+
+    }else if(action.type === SET_WINNER){
+        return Object.assign({},state,{
+            winner:action.checkWin,
+            feedback: `${state.winner} has won!` 
+        })
     }
     return state
 }

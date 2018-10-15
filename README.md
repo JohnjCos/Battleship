@@ -1,5 +1,15 @@
 # BattleShip Game
 
+##ABOUT:
+  battleship the game
+  select 4 battleships with a length of 2 and 3
+  then simply click on a square to see if your opponents battlship is where you think it is
+  once youve found all of their ships you win!
+
+##LINK:
+
+link to live app : 
+
 ## TODO:
   build field --**check**
   let player select ships --**check**
@@ -10,8 +20,4 @@
   lets players win
   setup websockets
 
-##ABOUT:
-  battleship the game
-  select 4 battleships with a length of 2 and 3
-  then simply click on a square to see if your opponents battlship is where you think it is
-  once youve found all of their ships you win!
+

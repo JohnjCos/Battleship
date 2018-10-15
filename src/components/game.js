@@ -7,24 +7,28 @@ import StartMenu from './StartMenu';
 import CreateOrJoin from './CreateOrJoin';
 
 function Game(props){
-    if(props.redirect!==null && props.redirect.mode === 'create'){
+    console.log(props.winner)
+    if(props.winner != null){
+        return <InfoSection/>
+    }
+    if(props.mode === 'selecting' && props.player === 'player1'){
         return (
             <main>
                 <header>
                     <h1>Battleship</h1>
                 </header>
-                <Redirect to={`/${props.redirect.gameName}/player1`}/>
+                <Redirect to={`/${props.gameName}/${props.player}`}/>
                 <Board />
                 <InfoSection />
             </main>
     )
-    }else if(props.redirect!==null && props.redirect.mode === 'join'){
+    }else if(props.mode === 'selecting' && props.player === 'player2'){
         return (
             <main>
                 <header>
                     <h1>Battleship</h1>
                 </header>
-                <Redirect to={`/${props.redirect.gameName}/player2`}/>
+                <Redirect to={`/${props.gameName}/${props.player}`}/>
                 <Board />
                 <InfoSection />
             </main>
@@ -48,14 +52,26 @@ function Game(props){
                     <h1>Battleship</h1>
                 </header>
                 <CreateOrJoin/>
+                <InfoSection/>
             </div>
         )
     }
+    return(
+        <main>
+        <header>
+            <h1>Battleship</h1>
+        </header>
+        <Board />
+        <InfoSection />
+    </main>
+    )
 }
 
 const mapStateToProps= state =>({
     mode:state.mode,
-    redirect:state.redirect
+    player:state.player,
+    gameName:state.gameName,
+    winner: state.winner
 })
 
 export default connect(mapStateToProps)(Game)

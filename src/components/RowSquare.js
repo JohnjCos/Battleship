@@ -1,46 +1,33 @@
 import React from 'react'
 import './square.css'
 import {connect} from 'react-redux'
-import {battleshipSelect, groupCoordinates,shipHit,shipMiss} from '../actions'
+import {battleshipSelect, groupCoordinates, hitCheck} from '../actions'
 class RowSquare extends React.Component {
-    constructor(props){
-        super(props)
-        this.state={
-            hitOrMiss:''
-        }
-    }
 
 
     render(){
 
         const coordinateCheck = ()=>{
             const check = this.props.playerships.map(ship =>ship.some(square => square.x ===this.props.rowIndex && square.y === this.props.columnIndex))
-            if(check.includes(true) === true){
+            if(check.includes(true)){
                 return 'O'
             }
-    }
-
-    const HitOrMiss = ()=>{
-            const check = this.props.player2ships.map(ship =>ship.some(square =>square.x===this.props.rowIndex && square.y===this.props.columnIndex))
-        if(check.includes(true)===true){
-            this.setState({
-                hitOrMiss:'X'
-            })
-            
-            return true
-        }else{
-            this.setState({
-                hitOrMiss:'M'
-            })
-            return false
         }
-    }
+
+        const hasBeenSelectedCheck = ()=>{
+            const check = this.props.playershots.some(shot => shot.coordinate.x ===this.props.rowIndex && shot.coordinate.y === this.props.columnIndex)
+            if(check){
+                return this.props.shortFeedback
+            }
+        }
+
 
         if(this.props.mode === 'selecting'){
 
                 return(
                     <button 
                             key={this.props.rowIndex+'-'+this.props.columnIndex}
+                            className="tile"
                             draggable="true" 
                             onDragStart={
                                 () => this.props.dispatch(groupCoordinates({x:this.props.rowIndex, y:this.props.columnIndex}))
@@ -52,23 +39,28 @@ class RowSquare extends React.Component {
                             >
                     {coordinateCheck()}</button>
                 )
-        }else if(this.props.mode === 'ready'){
+        }else if(this.props.mode === 'play' && this.props.yourTurn){
             return(
                 <button
-                key={this.props.rowIndex+'-'+this.props.columnIndex}
-                onClick={()=>console.log('hello')}>{coordinateCheck()}</button>
-            )
-        }else if(this.props.mode === 'play'){
-            return(
-                <button 
+                className="tile"
                 key={this.props.rowIndex+'-'+this.props.columnIndex}                
-                onClick={()=>
-                    {if(HitOrMiss()===true){
-                        this.props.dispatch(shipHit({x:this.props.rowIndex, y:this.props.columnIndex}))
-                    }else{
-                        this.props.dispatch(shipMiss())
-                    }}
-                }>{this.state.hitOrMiss}</button>
+                onClick={async ()=>{
+                this.props.dispatch(hitCheck({x:this.props.rowIndex, y:this.props.columnIndex}));
+            }
+                }>{hasBeenSelectedCheck()}</button>
+            )
+        }else if(this.props.mode==='ready'){
+            return(
+                <button
+                className="tile"
+                >{coordinateCheck()}</button>
+            )
+        }else{
+            return(
+                <button
+                className="tile"
+                key={this.props.rowIndex+'-'+this.props.columnIndex}
+                >{hasBeenSelectedCheck()}</button>
             )
         }
     }
@@ -77,7 +69,11 @@ class RowSquare extends React.Component {
 const mapStatetoProps= state =>({
     mode: state.mode,
     playerships: state.playerships,
-    player2ships:state.player2Ships
+    feedback:state.checkHit,
+    playershots:state.playerShots,
+    shortFeedback: (state.checkHit.hitOrMiss === 'hit') ? 'X' : (state.checkHit.hitOrMiss === 'miss') ? 'M' : '',
+    yourTurn: (state.player === state.turn)
+    
 })
 
 export default connect(mapStatetoProps)(RowSquare)

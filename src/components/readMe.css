@@ -1,0 +1,16 @@
+h4{
+    display: flex;
+    justify-content: center;
+}
+
+p{
+    display: flex;
+    font-style: bold;
+    justify-content: center;
+}
+
+.readMe{
+    border: 3px;
+    border-color: black;
+    color: white;
+}
