@@ -3,6 +3,13 @@ import './square.css'
 import {connect} from 'react-redux'
 import {battleshipSelect, groupCoordinates, hitCheck} from '../actions'
 class RowSquare extends React.Component {
+    constructor(props){
+        super(props)
+        
+        this.state = {
+            hitOrMiss : ''
+        }
+    }
 
 
     render(){
@@ -15,10 +22,16 @@ class RowSquare extends React.Component {
         }
 
         const hasBeenSelectedCheck = ()=>{
-            const check = this.props.playershots.some(shot => shot.coordinate.x ===this.props.rowIndex && shot.coordinate.y === this.props.columnIndex)
+            const check = this.props.playershots.find(shot => shot.coordinate.x ===this.props.rowIndex && shot.coordinate.y === this.props.columnIndex)
             if(check){
-                return this.props.shortFeedback
+                return check.hitOrMiss
             }
+        }
+
+        if(this.props.shortFeedback){
+            this.setState({
+                hitOrMiss: this.props.shortFeedback
+            })
         }
 
 
@@ -39,13 +52,13 @@ class RowSquare extends React.Component {
                             >
                     {coordinateCheck()}</button>
                 )
-        }else if(this.props.mode === 'play' && this.props.yourTurn){
+        }else if(this.props.mode === 'play' && this.props.yourTurn && !hasBeenSelectedCheck()){
             return(
                 <button
                 className="tile"
                 key={this.props.rowIndex+'-'+this.props.columnIndex}                
-                onClick={async ()=>{
-                this.props.dispatch(hitCheck({x:this.props.rowIndex, y:this.props.columnIndex}));
+                onClick={ ()=>{
+                this.props.dispatch(hitCheck({x:this.props.rowIndex, y:this.props.columnIndex}))
             }
                 }>{hasBeenSelectedCheck()}</button>
             )
@@ -71,7 +84,7 @@ const mapStatetoProps= state =>({
     playerships: state.playerships,
     feedback:state.checkHit,
     playershots:state.playerShots,
-    shortFeedback: (state.checkHit.hitOrMiss === 'hit') ? 'X' : (state.checkHit.hitOrMiss === 'miss') ? 'M' : '',
+    loading:state.loading,
     yourTurn: (state.player === state.turn)
     
 })

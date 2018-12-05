@@ -1,5 +1,5 @@
 import {GROUP_COORDINATES, BATTLESHIP_SELECT,REDO_SHIPS, MODE_CHANGE,
-            REDIRECT_GAME, HIT_CHECK, BEGIN_GAME, SWITCH_TURN, SET_WINNER, GAME_ERROR} from './actions'
+            REDIRECT_GAME, HIT_CHECK, BEGIN_GAME, SWITCH_TURN, SET_WINNER, GAME_ERROR, REQUEST_START, REQUEST_SUCCESS, REQUEST_FAILURE} from './actions'
 
 const initialState ={
     playerships:[],
@@ -12,7 +12,7 @@ const initialState ={
     mode:'start',
     playerShots:[],
     player:'',
-    checkHit:{hitOrMiss:'',coordinate:{}},
+    loading:false,
     gameName: null,
     turn: null,
     winner:null,
@@ -41,6 +41,20 @@ export const selectReducer = (state = initialState, action) => {
     }else if(action.type === REDO_SHIPS){
         return Object.assign({},state,initialState)
         
+    }else if(action.type === REQUEST_START){
+        return Object.assign({},state,{
+            loading:true,
+            error: null
+        })
+    }else if(action.type === REQUEST_SUCCESS){
+        return Object.assign({},state,{
+            loading:false,
+            error: null
+        })
+    }else if(action.type === REQUEST_FAILURE){
+        return Object.assign({},state,{
+            error:action.error
+        })
     }else if(action.type ===BATTLESHIP_SELECT){
         if(state.shipSelection["2"]===0 && state.shipSelection["3"]===1){
             if(state.newShip.length === 3 && state.shipSelection["3"] !== 0 && coordinateCheck()!==true){
@@ -99,7 +113,6 @@ export const selectReducer = (state = initialState, action) => {
     }else if(action.type ===HIT_CHECK){
         console.log(action)
         return Object.assign({},state,{
-            checkHit:action.checkHit,
             feedback:action.checkHit.hitOrMiss,
             playerShots:[...state.playerShots,action.checkHit]
         })

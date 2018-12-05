@@ -36,8 +36,25 @@ async function waitForYourTurn(gameName,currentPlayer) {
     return
 }
 
+export const REQUEST_START = 'REQUEST_START'
+export const requestStart = ()=>({
+    type: REQUEST_START
+})
+
+export const REQUEST_SUCCESS = 'REQUEST_SUCCESS'
+export const requestSuccess = ()=>({
+    type:REQUEST_SUCCESS
+})
+
+export const REQUEST_FAILURE = 'REQUEST_FAILURE'
+export const requestFailure = (error)=>({
+    type: REQUEST_FAILURE,
+    error
+})
+
 export const HIT_CHECK = 'HIT_CHECK'
 export const hitCheck =(Shots) =>(dispatch,getState) =>{
+    requestStart()
     return fetch(`${API_BASE_URL}/${getState().gameName}/${getState().player}`,{
         method:'PUT',
         headers:{
@@ -53,8 +70,8 @@ export const hitCheck =(Shots) =>(dispatch,getState) =>{
     .then(()=> dispatch(switchTurn()))
     .then(()=>waitForYourTurn(getState().gameName,getState().player))
     .then(()=> dispatch(switchTurn()))
-
-
+    .then(()=>dispatch(requestSuccess()))
+    .catch((error)=>dispatch(requestFailure(error)))
 }
 
 export const SWITCH_TURN = "SWITCH_TURN"
@@ -64,6 +81,7 @@ export const switchTurn =()=>({
 
 export const GAME_ERROR = 'GAME_ERROR'
 export const createGame =(gameName, password)=>dispatch =>{
+    
     return fetch(`${API_BASE_URL}`,{
         method:'POST',
         headers:{
