@@ -138,17 +138,17 @@ export const selectReducer = (state = initialState, action) => {
                 error:''
             })
         }
-        
     }else if (action.type === BEGIN_GAME){
         return Object.assign({},state,{
             playerTurn: action.turn,
             mode:'play',
-            feedback:'time to crush the enemy!',
+            feedback:"player1's turn",
             turn: null
         })
     }else if(action.type === SWITCH_TURN){
     let turn
         if(!state.turn){
+            console.log(state.player)
             turn = state.player
         }
         else{

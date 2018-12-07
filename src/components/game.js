@@ -7,7 +7,6 @@ import StartMenu from './StartMenu';
 import CreateOrJoin from './CreateOrJoin';
 
 function Game(props){
-    console.log(props.winner)
     if(props.winner != null){
         return <InfoSection/>
     }

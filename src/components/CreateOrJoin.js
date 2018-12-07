@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {modeChange, createGame, redirect} from '../actions'
+import {modeChange, createGame, joinGame} from '../actions'
 import './form.css'
 function CreateOrJoin(props){
     let gameName;
@@ -11,7 +11,7 @@ function CreateOrJoin(props){
             if(props.mode === 'create'){
                 props.dispatch(createGame(gameName.value,gamePassword.value))
             }else if(props.mode === 'join'){
-                props.dispatch(redirect(gameName.value,'player2'))                
+                props.dispatch(joinGame(gameName.value,gamePassword.value))                
             }
             }}>
             <input placeholder='gameName' ref={name =>gameName = name}/>

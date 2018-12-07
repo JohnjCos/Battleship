@@ -20,7 +20,12 @@ span{
 
 .redo,.ready{
     display: flex;
-    width: 150px;
+    height: 30px;
+    width: 300px;
+    margin-bottom: 8px;
+    border: 1px solid black;
+    border-radius: 3px;
+    background-color: gray;
     justify-content: center;
 }
 

@@ -81,8 +81,8 @@ export const switchTurn =()=>({
 
 export const GAME_ERROR = 'GAME_ERROR'
 export const createGame =(gameName, password)=>dispatch =>{
-    
-    return fetch(`${API_BASE_URL}`,{
+
+    return fetch(`${API_BASE_URL}/create`,{
         method:'POST',
         headers:{
             'content-type': 'application/json'
@@ -134,6 +134,7 @@ async function checkForWinner(gameName) {
     return
 }
 
+export const READY_UP = 'READY_UP'
 export const BEGIN_GAME = 'BEGIN_GAME'
 export const SET_WINNER ='SET_WINNER'
 export const beginGame = (Ships) =>(dispatch,getState) =>{
@@ -160,6 +161,23 @@ export const beginGame = (Ships) =>(dispatch,getState) =>{
     }))
 }
 
+
+export const joinGame =(gameName, password)=>dispatch =>{
+    return fetch(`${API_BASE_URL}/join`,{
+        method:'POST',
+        headers:{
+            'content-type': 'application/json'
+        },
+        body:JSON.stringify({gameName,password})
+    })
+    .then(res => res.status === 201 ? res.json() : Promise.reject(res.err))
+    .then(()=>dispatch(redirect(gameName,'player2')))
+    .catch(() => dispatch({
+            type:GAME_ERROR,
+            error: 'gameName or password incorrect'
+        })
+    )
+}
 
 export const REDIRECT_GAME ='REDIRECT_GAME'
 export const redirect = (gameName,player)=>({

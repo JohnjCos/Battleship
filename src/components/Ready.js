@@ -2,18 +2,37 @@ import React from 'react';
 import {connect} from 'react-redux'
 import {beginGame,redoShips} from '../actions'
 
-function Ready(props){
-    return(
-        <div className="readySection">
-            <h3>Begin?</h3>
-            <button 
-            className='ready'
-            onClick={()=>{
-                props.dispatch(beginGame(props.Ships))
-                }}>Ready</button>
-            <button className='redo' onClick={()=>props.dispatch(redoShips())}>Redo ships</button>
-        </div>
-    )
+class Ready extends React.Component{
+    constructor(props){
+        super(props)
+
+        this.state= {
+            message:'Begin?'
+        }
+    }
+
+    render(){
+
+        const changeMessage =(message)=>{
+            this.setState({
+                message
+            })
+        }
+
+        return(
+            <div className="readySection">
+                <h3>{this.state.message}</h3>
+                <button 
+                className='ready'
+                onClick={()=>{
+                    this.props.dispatch(beginGame(this.props.Ships))
+                    changeMessage('waiting on other player')
+                    }}>Ready</button>
+                <button className='redo' onClick={()=>this.props.dispatch(redoShips())}>Redo ships</button>
+            </div>
+        )
+    }
+
 }
 
 const mapStateToProps = state =>({
