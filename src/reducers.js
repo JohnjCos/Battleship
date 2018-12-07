@@ -148,7 +148,6 @@ export const selectReducer = (state = initialState, action) => {
     }else if(action.type === SWITCH_TURN){
     let turn
         if(!state.turn){
-            console.log(state.player)
             turn = state.player
         }
         else{
