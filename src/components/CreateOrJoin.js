@@ -17,7 +17,7 @@ function CreateOrJoin(props){
             <input placeholder='gameName' ref={name =>gameName = name}/>
             <input placeholder='password'ref={password =>gamePassword=password}/>
             <button className='startGame'>{props.mode}</button>
-            <button className='cancel' onClick={()=>props.dispatch(modeChange('start'))}>Cancel</button>
+            <button className='cancel' onClick={()=>props.dispatch(modeChange('start'))}>cancel</button>
         </form>
     )
 }

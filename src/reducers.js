@@ -1,5 +1,5 @@
 import {GROUP_COORDINATES, BATTLESHIP_SELECT,REDO_SHIPS, MODE_CHANGE,
-            REDIRECT_GAME, HIT_CHECK, BEGIN_GAME, SWITCH_TURN, SET_WINNER, GAME_ERROR, REQUEST_START, REQUEST_SUCCESS, REQUEST_FAILURE} from './actions'
+            REDIRECT_GAME, HIT_CHECK, BEGIN_GAME, SWITCH_TURN, SET_WINNER, GAME_ERROR, REQUEST_START, REQUEST_SUCCESS, REQUEST_FAILURE, END_GAME} from './actions'
 
 const initialState ={
     playerships:[],
@@ -170,6 +170,8 @@ export const selectReducer = (state = initialState, action) => {
             winner:action.checkWin,
             feedback: `${state.winner} has won!` 
         })
+    }else if(action.type === END_GAME){
+        return Object.assign({},state,initialState)
     }
     return state
 }

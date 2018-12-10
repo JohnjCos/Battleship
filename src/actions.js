@@ -134,6 +134,19 @@ async function checkForWinner(gameName) {
     return
 }
 
+export const END_GAME = 'END_GAME'
+export const endGame = () =>(dispatch,getState) =>{
+    return fetch(`${API_BASE_URL}/${getState().gameName}`,{
+        method: 'DELETE',
+        headers:{
+            'content-type': 'application/json'
+        }
+    })
+    .then(()=>dispatch({
+        type:END_GAME
+    }))
+}
+
 export const READY_UP = 'READY_UP'
 export const BEGIN_GAME = 'BEGIN_GAME'
 export const SET_WINNER ='SET_WINNER'

@@ -20,13 +20,15 @@
 }
 
 span{
-    color: white;
-    font-size: 20px;
+    color: red;
+    font-size: 24px;
+    font-style: bold;
     display: flex;
     justify-content: center;
+    margin-top: 25px;
 }
 
-.redo,.ready{
+.redo,.ready, .closeGameButton{
     display: flex;
     width: 300px;
     font-size: 18px;

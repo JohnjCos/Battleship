@@ -1,10 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import { endGame } from '../actions';
 
 export function Feedback(props){
     if(props.winner != null){
         return(
-            <div className="winnerFeedback">{props.winner} has won!</div>
+            <div className='container'>
+                <div className="winnerFeedback">{props.winner} has won!</div>
+                <button className="closeGameButton" onClick ={()=>{props.dispatch(endGame())}}>Close Game</button>
+            </div>
         )
     }else{
         return(

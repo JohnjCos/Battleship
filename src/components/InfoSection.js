@@ -12,8 +12,10 @@ function InfoSection(props){
         )
     }
         return(
-            <div className={props.hasFeedback ? '' : 'none'}>
-                <Feedback/>
+            <div>
+                <div className={props.hasFeedback ? '' : 'none'}>
+                    <Feedback/>
+                </div>
                 <span className='error'>{props.error}</span>
             </div>
         )
