@@ -1,22 +1,29 @@
 input{
     display: block;
-    margin-top: 10px;
+    margin-bottom: 15px;
     height: 20px;
     background-color: lightgrey;
+    box-shadow: inset 2px 2px rgba(0,0,0,0.3);
+    height: 48px;
+    font-size: 16px;   
 }
 
 .startGame, .cancel{
-    margin: 10px;
-    height: 30px;
+    display: flex;
     width: 300px;
     font-size: 18px;
-    background-color: grey;
-    border-color: lightslategray;
-
+    height: 48px;
+    margin-bottom: 8px;
+    border-radius: 3px;
+    border: 1px solid black;
+    justify-content: center;
+    background-color: lightgray;
+    box-shadow: 0 .4rem .6rem 0 rgba(0, 0, 0, 0.4);
 }
 
 form{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 400px;
 }

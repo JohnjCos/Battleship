@@ -2,12 +2,13 @@
     display: flex;
     width: 300px;
     font-size: 18px;
-    height: 30px;
+    height: 48px;
     margin-bottom: 8px;
     border-radius: 3px;
     border: 1px solid black;
     justify-content: center;
-    background-color: gray;
+    background-color: lightgray;
+    box-shadow: 0 .4rem .6rem 0 rgba(0, 0, 0, 0.4);
 }
 
 .startMenu{

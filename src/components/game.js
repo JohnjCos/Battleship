@@ -8,7 +8,11 @@ import CreateOrJoin from './CreateOrJoin';
 
 function Game(props){
     if(props.winner != null){
-        return <InfoSection/>
+        return (
+            <div className="container">
+                <InfoSection/>
+            </div>
+        )
     }
     if(props.mode === 'selecting' && props.player === 'player1'){
         return (
@@ -17,8 +21,10 @@ function Game(props){
                     <h1>Battleship</h1>
                 </header>
                 <Redirect to={`/${props.gameName}/${props.player}`}/>
-                <Board />
-                <InfoSection />
+                <div className="container">
+                    <Board />
+                    <InfoSection />
+                </div>
             </main>
     )
     }else if(props.mode === 'selecting' && props.player === 'player2'){
@@ -28,8 +34,10 @@ function Game(props){
                     <h1>Battleship</h1>
                 </header>
                 <Redirect to={`/${props.gameName}/${props.player}`}/>
-                <Board />
-                <InfoSection />
+                <div className="container">
+                    <Board />
+                    <InfoSection />
+                </div>
             </main>
         )
     }
@@ -40,8 +48,10 @@ function Game(props){
                 <header>
                     <h1>Battleship</h1>
                 </header>
-                <StartMenu/>
-                <InfoSection/>
+                <div className="container">
+                    <StartMenu/>
+                    <InfoSection/>
+                </div>
             </div>
         )
     }else if(props.mode === 'create' || props.mode === 'join'){
@@ -50,8 +60,10 @@ function Game(props){
                 <header>
                     <h1>Battleship</h1>
                 </header>
-                <CreateOrJoin/>
-                <InfoSection/>
+                <div className="container">
+                    <CreateOrJoin/>
+                    <InfoSection/>
+                </div>
             </div>
         )
     }
@@ -60,8 +72,10 @@ function Game(props){
         <header>
             <h1>Battleship</h1>
         </header>
-        <Board />
-        <InfoSection />
+        <div className="container">
+            <Board />
+            <InfoSection />
+        </div>
     </main>
     )
 }

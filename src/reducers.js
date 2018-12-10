@@ -39,7 +39,16 @@ export const selectReducer = (state = initialState, action) => {
             })
         }
     }else if(action.type === REDO_SHIPS){
-        return Object.assign({},state,initialState)
+        return Object.assign({},state,{
+            playerships:[],
+            newShip:[],
+            shipSelection:{
+                2:2,
+                3:2
+            },
+            feedback:'Please select your ships',
+            mode: 'selecting'
+        })
         
     }else if(action.type === REQUEST_START){
         return Object.assign({},state,{
@@ -106,12 +115,10 @@ export const selectReducer = (state = initialState, action) => {
             })
         }
     }else if(action.type === GAME_ERROR){
-        console.log(action)
         return Object.assign({},state,{
             error:action.error
         })
     }else if(action.type ===HIT_CHECK){
-        console.log(action)
         return Object.assign({},state,{
             feedback:action.checkHit.hitOrMiss,
             playerShots:[...state.playerShots,action.checkHit]
