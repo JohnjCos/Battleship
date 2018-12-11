@@ -47,7 +47,8 @@ export const selectReducer = (state = initialState, action) => {
                 3:2
             },
             feedback:'Please select your ships',
-            mode: 'selecting'
+            mode: 'selecting',
+            error:''
         })
         
     }else if(action.type === REQUEST_START){
