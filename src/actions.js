@@ -81,7 +81,7 @@ export const switchTurn =()=>({
 
 export const GAME_ERROR = 'GAME_ERROR'
 export const createGame =(gameName, password)=>dispatch =>{
-
+    requestStart()
     return fetch(`${API_BASE_URL}/create`,{
         method:'POST',
         headers:{
@@ -90,6 +90,7 @@ export const createGame =(gameName, password)=>dispatch =>{
         body:JSON.stringify({gameName,password})
     })
     .then(res => res.status === 200 ? res.json() : Promise.reject(res.err))
+    .then(()=>dispatch(requestSuccess()))
     .then(()=>dispatch(redirect(gameName,'player1')))
     .catch(() => dispatch({
             type:GAME_ERROR,

@@ -7,6 +7,14 @@ import StartMenu from './StartMenu';
 import CreateOrJoin from './CreateOrJoin';
 
 function Game(props){
+
+    if(props.loading){
+        return(
+            <div>
+                loading...
+            </div>
+        )
+    }
     if(props.winner != null){
         return (
             <div className="container">
@@ -84,7 +92,8 @@ const mapStateToProps= state =>({
     mode:state.mode,
     player:state.player,
     gameName:state.gameName,
-    winner: state.winner
+    winner: state.winner,
+    loading: state.loading
 })
 
 export default connect(mapStateToProps)(Game)
