@@ -10,7 +10,7 @@ function Game(props){
 
     if(props.loading){
         return(
-            <div>
+            <div className='loading'>
                 loading...
             </div>
         )
