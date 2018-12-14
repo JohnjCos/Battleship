@@ -135,7 +135,7 @@ export const selectReducer = (state = initialState, action) => {
                 player:action.player,
                 mode:'selecting',
                 gameName:action.gameName,
-                feedback:'select your Battleships!',
+                feedback:'Select your Battleships!',
                 error:''
             })
         }else if(action.player ==='player2'){
@@ -143,7 +143,7 @@ export const selectReducer = (state = initialState, action) => {
                 player:action.player,
                 mode:'selecting',
                 gameName:action.gameName,
-                feedback:'select your Battleships!',
+                feedback:'Select your Battleships!',
                 error:''
             })
         }
