@@ -12,9 +12,12 @@ p{
 
 .readMe{
     border: 2px solid black;
-    background-color: #fff;
-    color: #000;
+    color: navy;
+    background-color: rgba(255,255,255,.6);
+    padding-right: 4px;
+    padding-left: 4px; 
     font-size: 18px;
+    font-style: bold;
     padding: 0 40px 20px 40px;
     margin-top: 40px;
 }

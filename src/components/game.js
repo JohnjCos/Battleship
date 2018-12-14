@@ -54,7 +54,7 @@ function Game(props){
                 </div>
             </div>
         )
-    }else if(props.mode === 'create' || props.mode === 'join'){
+    }else if(props.mode === 'Create' || props.mode === 'Join'){
         return(
             <div>
                 <header>

@@ -26,7 +26,7 @@ class Ready extends React.Component{
                 className='ready'
                 onClick={()=>{
                     this.props.dispatch(beginGame(this.props.Ships))
-                    changeMessage('waiting on other player')
+                    changeMessage('Waiting on other player')
                     }}>Ready</button>
                 <button className='redo' onClick={()=>this.props.dispatch(redoShips())}>Redo ships</button>
             </div>

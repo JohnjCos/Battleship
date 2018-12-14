@@ -126,7 +126,8 @@ export const selectReducer = (state = initialState, action) => {
         })
     }else if(action.type ===MODE_CHANGE){
         return Object.assign({},state,{
-            mode:action.mode
+            mode:action.mode,
+            error:''
         })
     }else if(action.type ===REDIRECT_GAME){
         if(action.player ==='player1'){

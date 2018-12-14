@@ -8,16 +8,16 @@ function CreateOrJoin(props){
     return (
         <form onSubmit={(event)=>{
             event.preventDefault();
-            if(props.mode === 'create'){
+            if(props.mode === 'Create'){
                 props.dispatch(createGame(gameName.value,gamePassword.value))
-            }else if(props.mode === 'join'){
+            }else if(props.mode === 'Join'){
                 props.dispatch(joinGame(gameName.value,gamePassword.value))                
             }
             }}>
-            <input placeholder='gameName' ref={name =>gameName = name}/>
-            <input placeholder='password'ref={password =>gamePassword=password}/>
+            <input placeholder=' Gamename' ref={name =>gameName = name}/>
+            <input placeholder=' Password'ref={password =>gamePassword=password}/>
             <button className='startGame'>{props.mode}</button>
-            <button className='cancel' onClick={()=>props.dispatch(modeChange('start'))}>cancel</button>
+            <button className='cancel' onClick={()=>props.dispatch(modeChange('start'))}>Cancel</button>
         </form>
     )
 }

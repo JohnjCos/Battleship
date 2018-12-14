@@ -8,8 +8,8 @@ function StartMenu(props){
     return(
         <div className ='startMenu'>
             <h3>Welcome to the game of Battleship</h3>
-            <button className='createButton' onClick={()=>{props.dispatch(modeChange('create'))}}>Create Game</button>
-            <button className='joinButton' onClick={()=>{props.dispatch(modeChange('join'))}}>Join Game</button>
+            <button className='createButton' onClick={()=>{props.dispatch(modeChange('Create'))}}>Create Game</button>
+            <button className='joinButton' onClick={()=>{props.dispatch(modeChange('Join'))}}>Join Game</button>
             <Readme/>
         </div>
     )
